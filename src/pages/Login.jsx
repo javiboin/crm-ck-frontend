@@ -12,7 +12,6 @@ const Login = () => {
     const navigate = useNavigate()
 
     const onFinish = async (values) => {
-        console.log('values:', values)
         setLoading(true)
         try {
             const { data } = await api.post('/auth/login', values)
