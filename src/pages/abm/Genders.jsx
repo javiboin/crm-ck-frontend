@@ -1,5 +1,6 @@
-const Genders = () => {
-    return <h1>Genders</h1>
-}
+import SimpleAbm from '../../components/common/SimpleAbm'
+import gendersApi from '../../api/genders'
+
+const Genders = () => <SimpleAbm title='Géneros' api={gendersApi} dataKey='genders' />
 
 export default Genders
