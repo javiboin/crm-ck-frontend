@@ -8,7 +8,8 @@ import {
     AppstoreOutlined,
     LogoutOutlined,
     MenuFoldOutlined,
-    MenuUnfoldOutlined
+    MenuUnfoldOutlined,
+    UnorderedListOutlined
 } from '@ant-design/icons'
 import { useAuth } from '../../context/AuthContext'
 
@@ -49,6 +50,11 @@ const menuItems = [
             { key: '/abm/suppliers', label: 'Proveedores' },
             { key: '/abm/payment-types', label: 'Tipos de pago' }
         ]
+    },
+    {
+        key: '/log',
+        icon: <UnorderedListOutlined />,
+        label: 'Log'
     }
 ]
 

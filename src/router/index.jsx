@@ -13,6 +13,7 @@ import Genders from '../pages/abm/Genders'
 import Models from '../pages/abm/Models'
 import Suppliers from '../pages/abm/Suppliers'
 import PaymentTypes from '../pages/abm/PaymentTypes'
+import Log from '../pages/Log'
 
 const PrivateRoute = ({ children }) => {
     const { token, loading } = useAuth()
@@ -47,6 +48,7 @@ const AppRouter = () => {
                     <Route path='abm/models' element={<Models />} />
                     <Route path='abm/suppliers' element={<Suppliers />} />
                     <Route path='abm/payment-types' element={<PaymentTypes />} />
+                    <Route path='log' element={<Log />} />
                 </Route>
             </Routes>
         </BrowserRouter>
