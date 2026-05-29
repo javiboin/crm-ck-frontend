@@ -17,6 +17,19 @@ const Sales = () => {
     const [items, setItems] = useState([{ product_id: null, quantity: 1, discount_amount: 0 }])
     const [form] = Form.useForm()
 
+    const generalDiscount = Form.useWatch('discount_amount', form) || 0
+
+    const grossTotal = items.reduce((acc, item) => {
+        const product = products.find(p => p.id === item.product_id)
+        return acc + (product ? Number(product.price) : 0) * item.quantity
+    }, 0)
+
+    const itemsDiscount = items.reduce((acc, item) => {
+        return acc + (item.discount_amount || 0)
+    }, 0)
+
+    const finalTotal = Math.max(0, grossTotal - itemsDiscount - generalDiscount)
+
     const fetchData = async () => {
         try {
             const [salesRes, productsRes, paymentTypesRes] = await Promise.all([
@@ -198,45 +211,59 @@ const Sales = () => {
 
                     <Title level={5}>Productos</Title>
 
-                    {items.map((item, index) => (
-                        <Space key={index} style={{ display: 'flex', marginBottom: 8 }} align='start'>
-                            <Select
-                                size='large'
-                                placeholder='Producto'
-                                style={{ width: 280 }}
-                                value={item.product_id}
-                                onChange={(v) => updateItem(index, 'product_id', v)}
-                                showSearch
-                                optionFilterProp='children'
-                            >
-                                {products.map(p => (
-                                    <Select.Option key={p.id} value={p.id}>
-                                        {p.name} — Stock: {p.stock}
-                                    </Select.Option>
-                                ))}
-                            </Select>
-                            <InputNumber
-                                size='large'
-                                min={1}
-                                value={item.quantity}
-                                onChange={(v) => updateItem(index, 'quantity', v)}
-                                placeholder='Cantidad'
-                                style={{ width: 100 }}
-                            />
-                            <InputNumber
-                                size='large'
-                                min={0}
-                                value={item.discount_amount}
-                                onChange={(v) => updateItem(index, 'discount_amount', v)}
-                                placeholder='Descuento'
-                                prefix='$'
-                                style={{ width: 130 }}
-                            />
-                            {items.length > 1 && (
-                                <Button danger onClick={() => removeItem(index)}>-</Button>
-                            )}
-                        </Space>
-                    ))}
+                    {items.map((item, index) => {
+                        const product = products.find(p => p.id === item.product_id)
+                        const price = product ? Number(product.price) : 0
+                        const subtotal = (price * item.quantity) - (item.discount_amount || 0)
+                        return (
+                            <Space key={index} style={{ display: 'flex', marginBottom: 8 }} align='center'>
+                                <Select
+                                    size='large'
+                                    placeholder='Producto'
+                                    style={{ width: 280 }}
+                                    value={item.product_id}
+                                    onChange={(v) => updateItem(index, 'product_id', v)}
+                                    showSearch
+                                    optionFilterProp='children'
+                                >
+                                    {products.map(p => (
+                                        <Select.Option key={p.id} value={p.id}>
+                                            {p.name} — Stock: {p.stock}
+                                        </Select.Option>
+                                    ))}
+                                </Select>
+                                <InputNumber
+                                    size='large'
+                                    min={1}
+                                    value={item.quantity}
+                                    onChange={(v) => updateItem(index, 'quantity', v)}
+                                    placeholder='Cantidad'
+                                    style={{ width: 80 }}
+                                />
+                                <InputNumber
+                                    size='large'
+                                    min={0}
+                                    value={item.discount_amount}
+                                    onChange={(v) => updateItem(index, 'discount_amount', v)}
+                                    placeholder='Descuento'
+                                    prefix='$'
+                                    style={{ width: 110 }}
+                                />
+                                <div style={{ 
+                                    width: 100, 
+                                    textAlign: 'right', 
+                                    fontWeight: '600', 
+                                    fontSize: '15px',
+                                    color: '#1677ff'
+                                }}>
+                                    {product ? `$${Math.max(0, subtotal).toLocaleString('es-AR')}` : '$0'}
+                                </div>
+                                {items.length > 1 && (
+                                    <Button danger onClick={() => removeItem(index)}>-</Button>
+                                )}
+                            </Space>
+                        )
+                    })}
 
                     <Button
                         type='dashed'
@@ -247,6 +274,59 @@ const Sales = () => {
                     >
                         Agregar producto
                     </Button>
+
+                    <div style={{
+                        background: '#f8fafc',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '8px',
+                        padding: '16px',
+                        marginBottom: '16px',
+                        marginTop: '16px'
+                    }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                            <Typography.Text type="secondary">Subtotal productos:</Typography.Text>
+                            <Typography.Text style={{ fontWeight: 500 }}>
+                                ${grossTotal.toLocaleString('es-AR')}
+                            </Typography.Text>
+                        </div>
+                        {itemsDiscount > 0 && (
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                                <Typography.Text type="secondary">Descuento de productos:</Typography.Text>
+                                <Typography.Text type="danger" style={{ fontWeight: 500 }}>
+                                    -${itemsDiscount.toLocaleString('es-AR')}
+                                </Typography.Text>
+                            </div>
+                        )}
+                        {generalDiscount > 0 && (
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                                <Typography.Text type="secondary">Descuento general:</Typography.Text>
+                                <Typography.Text type="danger" style={{ fontWeight: 500 }}>
+                                    -${generalDiscount.toLocaleString('es-AR')}
+                                </Typography.Text>
+                            </div>
+                        )}
+                        <div style={{
+                            height: '1px',
+                            background: '#e2e8f0',
+                            margin: '12px 0'
+                        }} />
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
+                        }}>
+                            <Typography.Text style={{ fontSize: '16px', fontWeight: 'bold' }}>
+                                Total final:
+                            </Typography.Text>
+                            <Typography.Text style={{
+                                fontSize: '24px',
+                                fontWeight: 'bold',
+                                color: '#1677ff'
+                            }}>
+                                ${finalTotal.toLocaleString('es-AR')}
+                            </Typography.Text>
+                        </div>
+                    </div>
 
                     <Button
                         type='primary'
