@@ -206,7 +206,8 @@ const Stock = () => {
                 open={modalOpen}
                 onCancel={() => setModalOpen(false)}
                 footer={null}
-                width={700}
+                width={1500}
+            // increased width for better data visibility
             >
                 <Form form={form} layout='vertical' onFinish={onSubmit}>
                     <Form.Item

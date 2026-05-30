@@ -130,6 +130,7 @@ const SimpleAbm = ({ title, api, dataKey }) => {
                 open={modalOpen}
                 onCancel={() => setModalOpen(false)}
                 footer={null}
+                width={1500}
             >
                 <Form form={form} layout='vertical' onFinish={onSubmit}>
                     <Form.Item

@@ -185,29 +185,11 @@ const Sales = () => {
                 open={modalOpen}
                 onCancel={() => setModalOpen(false)}
                 footer={null}
-                width={700}
+                width={1500}
+            // increased width for better data visibility
             >
                 <Form form={form} layout='vertical' onFinish={onSubmit}>
-                    <Form.Item
-                        label='Tipo de pago'
-                        name='payment_type_id'
-                        rules={[{ required: true, message: 'Seleccioná un tipo de pago' }]}
-                    >
-                        <Select size='large' placeholder='Seleccioná tipo de pago'>
-                            {paymentTypes.map(pt => (
-                                <Select.Option key={pt.id} value={pt.id}>{pt.name}</Select.Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
 
-                    <Form.Item label='Descuento general' name='discount_amount' initialValue={0}>
-                        <InputNumber
-                            size='large'
-                            min={0}
-                            prefix='$'
-                            style={{ width: '100%' }}
-                        />
-                    </Form.Item>
 
                     <Title level={5}>Productos</Title>
 
@@ -249,10 +231,10 @@ const Sales = () => {
                                     prefix='$'
                                     style={{ width: 110 }}
                                 />
-                                <div style={{ 
-                                    width: 100, 
-                                    textAlign: 'right', 
-                                    fontWeight: '600', 
+                                <div style={{
+                                    width: 100,
+                                    textAlign: 'right',
+                                    fontWeight: '600',
                                     fontSize: '15px',
                                     color: '#1677ff'
                                 }}>
@@ -274,6 +256,27 @@ const Sales = () => {
                     >
                         Agregar producto
                     </Button>
+
+                    <Form.Item label='Descuento general' name='discount_amount' initialValue={0}>
+                        <InputNumber
+                            size='large'
+                            min={0}
+                            prefix='$'
+                            style={{ width: '100%' }}
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        label='Tipo de pago'
+                        name='payment_type_id'
+                        rules={[{ required: true, message: 'Seleccioná un tipo de pago' }]}
+                    >
+                        <Select size='large' placeholder='Seleccioná tipo de pago'>
+                            {paymentTypes.map(pt => (
+                                <Select.Option key={pt.id} value={pt.id}>{pt.name}</Select.Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
 
                     <div style={{
                         background: '#f8fafc',
