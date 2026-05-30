@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Table, Tag, Typography, Input, Button, Modal, Form, Select, InputNumber, message, Popconfirm, Space } from 'antd'
+import { Table, Tag, Typography, Input, Button, Modal, Form, Select, InputNumber, message, Popconfirm, Space, Row, Col } from 'antd'
 import { PlusOutlined, SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import productsApi from '../api/products'
 import brandsApi from '../api/brands'
@@ -210,113 +210,127 @@ const Stock = () => {
             // increased width for better data visibility
             >
                 <Form form={form} layout='vertical' onFinish={onSubmit}>
-                    <Form.Item
-                        label='Nombre'
-                        name='name'
-                        rules={[{ required: true, message: 'El nombre es requerido' }]}
-                    >
-                        <Input size='large' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Marca'
-                        name='brand_id'
-                        rules={[{ required: true, message: 'Seleccioná una marca' }]}
-                    >
-                        <Select
-                            size='large'
-                            placeholder='Seleccioná una marca'
-                            onChange={onBrandChange}
-                        >
-                            {brands.map(b => (
-                                <Select.Option key={b.id} value={b.id}>{b.name}</Select.Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Modelo'
-                        name='model_id'
-                        rules={[{ required: true, message: 'Seleccioná un modelo' }]}
-                    >
-                        <Select
-                            size='large'
-                            placeholder='Seleccioná un modelo'
-                            disabled={filteredModels.length === 0}
-                        >
-                            {filteredModels.map(m => (
-                                <Select.Option key={m.id} value={m.id}>{m.name}</Select.Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Talle'
-                        name='size'
-                        rules={[{ required: true, message: 'El talle es requerido' }]}
-                    >
-                        <Input size='large' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Categoría'
-                        name='category_id'
-                        rules={[{ required: true, message: 'Seleccioná una categoría' }]}
-                    >
-                        <Select size='large' placeholder='Seleccioná una categoría'>
-                            {categories.map(c => (
-                                <Select.Option key={c.id} value={c.id}>{c.name}</Select.Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Género'
-                        name='gender_id'
-                        rules={[{ required: true, message: 'Seleccioná un género' }]}
-                    >
-                        <Select size='large' placeholder='Seleccioná un género'>
-                            {genders.map(g => (
-                                <Select.Option key={g.id} value={g.id}>{g.name}</Select.Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Color'
-                        name='color_id'
-                        rules={[{ required: true, message: 'Seleccioná un color' }]}
-                    >
-                        <Select size='large' placeholder='Seleccioná un color'>
-                            {colors.map(c => (
-                                <Select.Option key={c.id} value={c.id}>{c.name}</Select.Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-
-                    <Form.Item label='URL de imagen' name='image_url'>
-                        <Input size='large' placeholder='https://...' />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Stock'
-                        name='stock'
-                        rules={[{ required: true, message: 'El stock es requerido' }]}
-                    >
-                        <InputNumber size='large' min={0} style={{ width: '100%' }} />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Precio'
-                        name='price'
-                        rules={[{ required: true, message: 'El precio es requerido' }]}
-                    >
-                        <InputNumber size='large' min={0} prefix='$' style={{ width: '100%' }} />
-                    </Form.Item>
-
-                    <Button type='primary' htmlType='submit' size='large' block loading={submitting}>
-                        {editing ? 'Actualizar' : 'Crear'}
-                    </Button>
+                    <Row gutter={[16, 16]}>
+                        <Col xs={24} sm={12} md={8}>
+                            <Form.Item
+                                label='Nombre'
+                                name='name'
+                                rules={[{ required: true, message: 'El nombre es requerido' }]}
+                            >
+                                <Input size='large' />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={12} md={8}>
+                            <Form.Item
+                                label='Marca'
+                                name='brand_id'
+                                rules={[{ required: true, message: 'Seleccioná una marca' }]}
+                            >
+                                <Select
+                                    size='large'
+                                    placeholder='Seleccioná una marca'
+                                    onChange={onBrandChange}
+                                >
+                                    {brands.map(b => (
+                                        <Select.Option key={b.id} value={b.id}>{b.name}</Select.Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={12} md={8}>
+                            <Form.Item
+                                label='Modelo'
+                                name='model_id'
+                                rules={[{ required: true, message: 'Seleccioná un modelo' }]}
+                            >
+                                <Select
+                                    size='large'
+                                    placeholder='Seleccioná un modelo'
+                                    disabled={filteredModels.length === 0}
+                                >
+                                    {filteredModels.map(m => (
+                                        <Select.Option key={m.id} value={m.id}>{m.name}</Select.Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={12} md={8}>
+                            <Form.Item
+                                label='Talle'
+                                name='size'
+                                rules={[{ required: true, message: 'El talle es requerido' }]}
+                            >
+                                <Input size='large' />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={12} md={8}>
+                            <Form.Item
+                                label='Categoría'
+                                name='category_id'
+                                rules={[{ required: true, message: 'Seleccioná una categoría' }]}
+                            >
+                                <Select size='large' placeholder='Seleccioná una categoría'>
+                                    {categories.map(c => (
+                                        <Select.Option key={c.id} value={c.id}>{c.name}</Select.Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={12} md={8}>
+                            <Form.Item
+                                label='Género'
+                                name='gender_id'
+                                rules={[{ required: true, message: 'Seleccioná un género' }]}
+                            >
+                                <Select size='large' placeholder='Seleccioná un género'>
+                                    {genders.map(g => (
+                                        <Select.Option key={g.id} value={g.id}>{g.name}</Select.Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={12} md={8}>
+                            <Form.Item
+                                label='Color'
+                                name='color_id'
+                                rules={[{ required: true, message: 'Seleccioná un color' }]}
+                            >
+                                <Select size='large' placeholder='Seleccioná un color'>
+                                    {colors.map(c => (
+                                        <Select.Option key={c.id} value={c.id}>{c.name}</Select.Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={12} md={8}>
+                            <Form.Item label='URL de imagen' name='image_url'>
+                                <Input size='large' placeholder='https://...' />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={12} md={8}>
+                            <Form.Item
+                                label='Stock'
+                                name='stock'
+                                rules={[{ required: true, message: 'El stock es requerido' }]}
+                            >
+                                <InputNumber size='large' min={0} style={{ width: '100%' }} />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={12} md={8}>
+                            <Form.Item
+                                label='Precio'
+                                name='price'
+                                rules={[{ required: true, message: 'El precio es requerido' }]}
+                            >
+                                <InputNumber size='large' min={0} prefix='$' style={{ width: '100%' }} />
+                            </Form.Item>
+                        </Col>
+                        <Col span={24}>
+                            <Button type='primary' htmlType='submit' size='large' block loading={submitting}>
+                                {editing ? 'Actualizar' : 'Crear'}
+                            </Button>
+                        </Col>
+                    </Row>
                 </Form>
             </Modal>
         </div>

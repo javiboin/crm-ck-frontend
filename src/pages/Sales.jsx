@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Table, Button, Modal, Form, InputNumber, Select, Typography, message, Tag, Space } from 'antd'
+import { Table, Button, Modal, Form, InputNumber, Select, Typography, message, Tag, Space, Row, Col } from 'antd'
 import { PlusOutlined, StopOutlined } from '@ant-design/icons'
 import salesApi from '../api/sales'
 import paymentTypesApi from '../api/paymentTypes'
@@ -247,7 +247,7 @@ const Sales = () => {
                         )
                     })}
 
-                    <Button
+                      <Button
                         type='dashed'
                         onClick={addItem}
                         block
@@ -257,26 +257,32 @@ const Sales = () => {
                         Agregar producto
                     </Button>
 
-                    <Form.Item label='Descuento general' name='discount_amount' initialValue={0}>
-                        <InputNumber
-                            size='large'
-                            min={0}
-                            prefix='$'
-                            style={{ width: '100%' }}
-                        />
-                    </Form.Item>
-
-                    <Form.Item
-                        label='Tipo de pago'
-                        name='payment_type_id'
-                        rules={[{ required: true, message: 'Seleccioná un tipo de pago' }]}
-                    >
-                        <Select size='large' placeholder='Seleccioná tipo de pago'>
-                            {paymentTypes.map(pt => (
-                                <Select.Option key={pt.id} value={pt.id}>{pt.name}</Select.Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
+                    {/* Grid layout for discount and payment type */}
+                    <Row gutter={[16, 16]}>
+                        <Col xs={24} sm={12} md={8}>
+                            <Form.Item label='Descuento general' name='discount_amount' initialValue={0}>
+                                <InputNumber
+                                    size='large'
+                                    min={0}
+                                    prefix='$'
+                                    style={{ width: '100%' }}
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={12} md={8}>
+                            <Form.Item
+                                label='Tipo de pago'
+                                name='payment_type_id'
+                                rules={[{ required: true, message: 'Seleccioná un tipo de pago' }]}
+                            >
+                                <Select size='large' placeholder='Seleccioná tipo de pago'>
+                                    {paymentTypes.map(pt => (
+                                        <Select.Option key={pt.id} value={pt.id}>{pt.name}</Select.Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
                     <div style={{
                         background: '#f8fafc',
